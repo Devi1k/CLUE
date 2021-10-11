@@ -27,7 +27,7 @@ import torch
 from pytorch_modeling import BertConfig, BertForPreTraining, ALBertConfig, ALBertForPreTraining
 
 
-def convert_tf_checkpoint_to_pytorch(tf_checkpoint_path, bert_config_file, pytorch_dump_path, is_albert):
+def convert_tf_checkpoint_to_pytorch(tf_checkpoint_path, bert_config_file, pytorch_dump_path):
     config_path = os.path.abspath(bert_config_file)
     tf_path = os.path.abspath(tf_checkpoint_path)
     print("Converting TensorFlow checkpoint from {} with config at {}".format(tf_path, config_path))
@@ -42,14 +42,14 @@ def convert_tf_checkpoint_to_pytorch(tf_checkpoint_path, bert_config_file, pytor
         arrays.append(array)
 
     # Initialise PyTorch model
-    if is_albert:
-        config = ALBertConfig.from_json_file(bert_config_file)
-        print("Building PyTorch model from configuration: {}".format(str(config)))
-        model = ALBertForPreTraining(config)
-    else:
-        config = BertConfig.from_json_file(bert_config_file)
-        print("Building PyTorch model from configuration: {}".format(str(config)))
-        model = BertForPreTraining(config)
+    # if is_albert:
+    #     config = ALBertConfig.from_json_file(bert_config_file)
+    #     print("Building PyTorch model from configuration: {}".format(str(config)))
+    #     model = ALBertForPreTraining(config)
+    # else:
+    config = BertConfig.from_json_file(bert_config_file)
+    print("Building PyTorch model from configuration: {}".format(str(config)))
+    model = BertForPreTraining(config)
 
     for name, array in zip(names, arrays):
         name = name.split('/')
@@ -101,25 +101,25 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     ## Required parameters
     parser.add_argument("--tf_checkpoint_path",
-                        default='check_points/pretrain_models/albert_large_zh/albert_model.ckpt',
+                        default='./check_points/pretrain_models/bert_wwm_ext/bert_model.ckpt',
                         type=str,
                         help="Path the TensorFlow checkpoint path.")
     parser.add_argument("--bert_config_file",
-                        default='check_points/pretrain_models/albert_large_zh/albert_config_large.json',
+                        default='./check_points/pretrain_models/bert_wwm_ext/bert_config.json',
                         type=str,
                         help="The config json file corresponding to the pre-trained BERT model. \n"
                              "This specifies the model architecture.")
     parser.add_argument("--pytorch_dump_path",
-                        default='check_points/pretrain_models/albert_large_zh/pytorch_albert_model.pth',
+                        default='./check_points/pretrain_models/bert_wwm_ext/bert_model.pth',
                         type=str,
                         help="Path to the output PyTorch model.")
-    parser.add_argument("--is_albert",
-                        default=False,
-                        action='store_true',
-                        type=bool,
-                        help="whether is albert?")
+    # parser.add_argument("--is_albert",
+    #                     default=False,
+    #                     action='store_true',
+    #                     type=bool,
+    #                     help="whether is albert?")
     args = parser.parse_args()
     convert_tf_checkpoint_to_pytorch(args.tf_checkpoint_path,
                                      args.bert_config_file,
                                      args.pytorch_dump_path,
-                                     args.is_albert)
+                                )

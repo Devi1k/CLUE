@@ -2,10 +2,15 @@ import collections
 import os
 import re
 from glob import glob
-
+from torch.nn import DataParallel
 import tensorflow as tf
-import tensorflow.contrib.slim as slim
+import tf_slim as slim
 import torch
+
+import torch
+from torch.nn.parallel.data_parallel import DataParallel
+from torch.nn.parallel.parallel_apply import parallel_apply
+from torch.nn.parallel._functions import Scatter
 
 
 def check_args(args):

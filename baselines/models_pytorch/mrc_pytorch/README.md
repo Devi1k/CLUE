@@ -34,9 +34,9 @@
 1. 下载对应tf模型权重到./check_points/prev_trained_model/对应模型名文件夹中，则运行转换脚本:
 ```
 python convert_tf_checkpoint_to_pytorch.py \
-      --tf_checkpoint_path=.check_points/prev_trained_model/roberta_wwm_ext_large/bert_model.ckpt \
-      --bert_config_file=.check_points/prev_trained_model/roberta_wwm_ext_large/bert_config.json \
-      --pytorch_dump_path=.check_points/prev_trained_model/roberta_wwm_ext_large/pytorch_model.pth
+      --tf_checkpoint_path=.check_points/prev_trained_model/bert_wwm_ext/bert_model.ckpt \
+      --bert_config_file=.check_points/prev_trained_model/berta_wwm_ext/bert_config.json \
+      --pytorch_dump_path=.check_points/prev_trained_model/berta_wwm_ext/pytorch_model.pth
 ```
 **注意**: 当转换完模型之后，需要在对应的文件夹内存放`bert_config.json`和`vocab.txt`文件
 

@@ -46,19 +46,19 @@ CONFIG_NAME = 'bert_config.json'
 WEIGHTS_NAME = 'pytorch_model.bin'
 
 
-def gelu(x):
-    """Implementation of the gelu activation function.
-        For information: OpenAI GPT's gelu is slightly different (and gives slightly different results):
-        0.5 * x * (1 + torch.tanh(math.sqrt(2 / math.pi) * (x + 0.044715 * torch.pow(x, 3))))
-    """
-    return x * 0.5 * (1.0 + torch.erf(x / math.sqrt(2.0)))
+# def gelu(x):
+#     """Implementation of the gelu activation function.
+#         For information: OpenAI GPT's gelu is slightly different (and gives slightly different results):
+#         0.5 * x * (1 + torch.tanh(math.sqrt(2 / math.pi) * (x + 0.044715 * torch.pow(x, 3))))
+#     """
+#     return x * 0.5 * (1.0 + torch.erf(x / math.sqrt(2.0)))
 
 
 def swish(x):
     return x * torch.sigmoid(x)
 
 
-ACT2FN = {"gelu": gelu, "relu": torch.nn.functional.relu, "swish": swish}
+ACT2FN = {"gelu": torch.nn.functional.gelu, "relu": torch.nn.functional.relu, "swish": swish}
 
 
 class BertConfig(object):
@@ -759,7 +759,7 @@ class BertModel(PreTrainedBertModel):
         # positions we want to attend and -10000.0 for masked positions.
         # Since we are adding it to the raw scores before the softmax, this is
         # effectively the same as removing these entirely.
-        extended_attention_mask = extended_attention_mask.to(dtype=next(self.parameters()).dtype)  # fp16 compatibility
+        extended_attention_mask = extended_attention_mask.to(dtype=torch.float32)  # fp16 compatibility
         extended_attention_mask = (1.0 - extended_attention_mask) * -10000.0
 
         embedding_output = self.embeddings(input_ids, token_type_ids)
@@ -1030,7 +1030,7 @@ class BertForTokenClassification(PreTrainedBertModel):
 class BertForQuestionAnswering(PreTrainedBertModel):
     def __init__(self, config):
         super(BertForQuestionAnswering, self).__init__(config)
-        self.bert = BertModel(config)
+        self.bert = BertModel.from_pretrained(config)
         # TODO check with Google if it's normal there is no dropout on the token classifier of SQuAD in the TF version
         # self.dropout = nn.Dropout(config.hidden_dropout_prob)
         self.qa_outputs = nn.Linear(config.hidden_size, 2)
