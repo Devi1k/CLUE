@@ -1,0 +1,31 @@
+------------ Options -------------
+gpu_ids: 0,1
+train_epochs: 2
+n_batch: 32
+lr: 3e-05
+dropout: 0.1
+clip_norm: 1.0
+warmup_rate: 0.1
+schedule: warmup_linear
+weight_decay_rate: 0.01
+seed: [123]
+float16: False
+max_ans_length: 50
+n_best: 20
+eval_epochs: 0.5
+save_best: True
+vocab_size: 21128
+max_seq_length: 512
+train_dir: /home/zhangxy/CLUE/baselines/models_pytorch/mrc_pytorch/mrc_data/CMRC2018/train_features_512.json
+dev_dir1: /home/zhangxy/CLUE/baselines/models_pytorch/mrc_pytorch/mrc_data/CMRC2018/dev_examples_512.json
+dev_dir2: /home/zhangxy/CLUE/baselines/models_pytorch/mrc_pytorch/mrc_data/CMRC2018/dev_features_512.json
+train_file: /home/zhangxy/CLUE/baselines/models_pytorch/mrc_pytorch/mrc_data/CMRC2018/train.json
+dev_file: /home/zhangxy/CLUE/baselines/models_pytorch/mrc_pytorch/mrc_data/CMRC2018/dev.json
+bert_config_file: /home/zhangxy/CLUE/baselines/models_pytorch/mrc_pytorch/check_points/prev_trained_model/bert_wwm_ext/bert_config.json
+vocab_file: /home/zhangxy/CLUE/baselines/models_pytorch/mrc_pytorch/check_points/prev_trained_model/bert_wwm_ext/vocab.txt
+init_restore_dir: /home/zhangxy/CLUE/baselines/models_pytorch/mrc_pytorch/check_points/prev_trained_model/bert_wwm_ext/pytorch_model.bin
+checkpoint_dir: /home/zhangxy/CLUE/baselines/models_pytorch/mrc_pytorch/check_points/CMRC2018/bert_wwm_ext/
+task_name: CMRC2018
+setting_file: /home/zhangxy/CLUE/baselines/models_pytorch/mrc_pytorch/check_points/CMRC2018/bert_wwm_ext/setting.txt
+log_file: /home/zhangxy/CLUE/baselines/models_pytorch/mrc_pytorch/check_points/CMRC2018/bert_wwm_ext/log.txt
+-------------- End ----------------
